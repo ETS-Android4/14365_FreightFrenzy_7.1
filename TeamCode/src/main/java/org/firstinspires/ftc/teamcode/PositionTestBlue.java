@@ -11,7 +11,18 @@ public class PositionTestBlue extends AutonomousPrime2021 {
         mapObjects();
         waitForStart();
 
-        duckSpin(1,5);
+        /*duckSpin(1,5);
+        pause(2);*/
+
+        Thread t1 = new Thread(new ArmController());
+        t1.start();
+
+        linearSlide(1750,0.15);
+
+        pause(5);
+
+        //t1.interrupt();
+
         pause(2);
 
 

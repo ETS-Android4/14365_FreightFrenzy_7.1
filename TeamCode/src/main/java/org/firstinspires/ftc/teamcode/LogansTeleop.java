@@ -13,14 +13,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp
-public class JacksTeleop extends LinearOpMode {
+public class LogansTeleop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
 
-        int ArmMinLimit = 0;
+        int ArmMinLimit = -25;
         //int ArmMaxLimit = 2025;
-        int ArmMaxLimit = 1800;
+        int ArmMaxLimit = 2750;
 
 
 
@@ -64,12 +64,15 @@ public class JacksTeleop extends LinearOpMode {
 
         boolean AutoArm = false;
 
-        int linearSlideCoefficient = 5;
+        int linearSlideCoefficient = 7; //WAS 5; MAY BREAK THINGS, CHANGE BACK IF IT DOES
 
         double chutePos=0;
 
         while(opModeIsActive()) {
             double coefficient = 1;
+            if(gamepad1.right_bumper){
+                coefficient=0.25;
+            }
             double y = gamepad1.left_stick_y;
             double x = -gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
@@ -104,6 +107,9 @@ public class JacksTeleop extends LinearOpMode {
             if(gamepad2.a){
                 intake.setPower(-1);
             }
+            else if(gamepad2.y){
+                intake.setPower(1);
+            }
             else{
                 intake.setPower(0);
             }
@@ -116,15 +122,15 @@ public class JacksTeleop extends LinearOpMode {
                 }
                 else if (ArmPosDPad==1){
                     //1st Wobble Level
-                    linearSlidePosition=1010/linearSlideCoefficient; //was 740
+                    linearSlidePosition=202; //was 740
                 }
                 else if(ArmPosDPad==2){
                     //2nd Wobble Level
-                    linearSlidePosition=1256/linearSlideCoefficient; //was 1140
+                    linearSlidePosition=251; //was 1140
                 }
                 else if (ArmPosDPad==3){
                     //3rd Wobble Level
-                    linearSlidePosition=1625/linearSlideCoefficient; //was 1640
+                    linearSlidePosition=325; //was 1640
                 }
                 else if(ArmPosDPad<0){
                     //D-Pad accidentally went too far down; reset to 0
@@ -138,29 +144,36 @@ public class JacksTeleop extends LinearOpMode {
 
             int CurrentSlidePos = linearSlide.getCurrentPosition();
 
-            if(CurrentSlidePos<=200 && CurrentSlidePos>-10){
+
+
+
+
+
+            if(gamepad2.b){
+                chuteEx.setPwmEnable();
+                chute.setPosition(0.5); //Dump Pos
+            }
+            else if((CurrentSlidePos<1250&&CurrentSlidePos>400)){ //was 1250, 200; 1250, 300; 1250, 400
+                chuteEx.setPwmEnable();
+                chute.setPosition(0.15);
+            }
+            else if((CurrentSlidePos<=400 && CurrentSlidePos>-25)){ //was 200, 300, (mech change), 400,
+                chuteEx.setPwmEnable();
+                chute.setPosition(0.0);
+            }
+            /*else if((CurrentSlidePos<=400 && CurrentSlidePos>-25) && gamepad2.left_stick_y>0.1){ //was 200
                 chuteEx.setPwmDisable();
-            }
-            else if(CurrentSlidePos >= 250){
+            }*/
+            else if(CurrentSlidePos >= 1250){ //was 550
                 chuteEx.setPwmEnable();
-                chutePos=0.4;
+                chute.setPosition(0.2);
             }
-
-
-
-            if(gamepad2.right_trigger>0.1){
+            /*else if(CurrentSlidePos>130 && CurrentSlidePos<137 && gamepad2.left_stick_y>0.1) {
                 chuteEx.setPwmEnable();
-                chuteEx.setPosition(0.7); //Dump Pos
-            }
-            else{
-                if(((ServoImplEx) chute).isPwmEnabled()==true){
-                    chuteEx.setPosition(chutePos);
-                }
-                else{
-                    chuteEx.setPwmDisable();
-                }
+                chute.setPosition(0.4);
+            }*/
 
-            }
+
 
 
 

@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -58,6 +59,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
     public int x = 0;
     public int y = 0;
     public int angle = 0;
+    public boolean ArmDump = false;
 
     /*
      ***************************
@@ -101,7 +103,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
 
 
     protected DcMotorEx intake = null;
-    protected DcMotorEx linearSlide = null;
+    protected DcMotorEx linearSlide = null; //was protected
     protected DcMotorEx dArm = null;
 
 
@@ -114,9 +116,9 @@ public class AutonomousPrime2021 extends LinearOpMode {
      ********************
      */
 
-    //protected Servo intakeDrop;
+    protected Servo chute;
     protected CRServo duckSpinny = null;
-    protected Servo chute = null;
+
 
 
 
@@ -203,8 +205,11 @@ public class AutonomousPrime2021 extends LinearOpMode {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
         intake.setDirection(DcMotor.Direction.REVERSE);
 
-        linearSlide = hardwareMap.get(DcMotorEx.class, "linearSlide");
+        linearSlide = hardwareMap.get(DcMotorEx.class,("linearSlide"));
+        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        linearSlide.setTargetPositionTolerance(10);
+        linearSlide.getCurrentPosition();
 
 
 
@@ -221,7 +226,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
         duckSpinny=hardwareMap.get(CRServo.class,"duckSpinny");
         duckSpinny.setDirection(CRServo.Direction.FORWARD);
 
-        chute = hardwareMap.get(Servo.class, "chute");
+        chute = hardwareMap.servo.get("chute");
 
 
         //intakeDrop = hardwareMap.get(Servo.class, "intakeDrop");
@@ -337,6 +342,14 @@ public class AutonomousPrime2021 extends LinearOpMode {
         telemetry.addData("Servo Pos: ", pos);
         telemetry.update();
     }
+
+    /**
+     * Return linearSlide position
+     */
+    public int linearSlidePos(){
+        return linearSlide.getCurrentPosition();
+    }
+
 
     /**
      * Move linear slide to given position
