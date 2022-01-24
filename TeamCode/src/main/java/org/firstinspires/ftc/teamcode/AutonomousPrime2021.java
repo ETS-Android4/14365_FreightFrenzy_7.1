@@ -144,25 +144,25 @@ public class AutonomousPrime2021 extends LinearOpMode {
      ******************************
      */
 
-    protected DistanceSensor GroundFront;
-    protected double GroundFrontDist = 0;
-    protected DistanceSensor GroundBack;
-    protected double GroundBackDist = 0;
+    public static DistanceSensor GroundFront;
+    public static double GroundFrontDist = 0;
+    public static DistanceSensor GroundBack;
+    public static double GroundBackDist = 0;
 
-    protected DistanceSensor Left;
-    protected double LeftDist = 0;
-    protected DistanceSensor Right;
-    protected double RightDist = 0;
+    public static DistanceSensor Left;
+    public static double LeftDist = 0;
+    public static DistanceSensor Right;
+    public static double RightDist = 0;
 
-    protected DistanceSensor FrontLeft;
-    protected double FrontLeftDist = 0;
-    protected DistanceSensor FrontRight;
-    protected double FrontRightDist = 0;
+    public static DistanceSensor FrontLeft;
+    public static double FrontLeftDist = 0;
+    public static DistanceSensor FrontRight;
+    public static double FrontRightDist = 0;
 
-    protected DistanceSensor BackLeft;
-    protected double BackLeftDist = 0;
-    protected DistanceSensor BackRight;
-    protected double BackRightDist = 0;
+    public static DistanceSensor BackLeft;
+    public static double BackLeftDist = 0;
+    public static DistanceSensor BackRight;
+    public static double BackRightDist = 0;
 
     /**
      * Mapping all empty objects to control hub objects
