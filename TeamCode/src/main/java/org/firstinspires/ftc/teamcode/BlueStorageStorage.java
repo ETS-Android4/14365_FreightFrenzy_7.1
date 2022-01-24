@@ -114,9 +114,9 @@ public class BlueStorageStorage extends AutonomousPrime2021 {
         strafeRightEncoder(22, 0.5);
         rightEncoder(100,0.25);
 
-        dArm(15,0.25);
+        dArm(6,0.4);
 
-        double idealWobblePos=16.4;
+        double idealWobblePos=3.5; //was 16.4, 12.5,
         updateRightDist();
         int count = 0;
         while(RightDist==0 || RightDist>800){
@@ -142,27 +142,29 @@ public class BlueStorageStorage extends AutonomousPrime2021 {
         strafeLeftEncoder(15,0.5);
 
 
-        //leftEncoder(90,1);
+        leftEncoder(180,0.5);
+
+        dArm(0,0.45);
 
         //spinIntake(1);
 
 
         if(DuckPosition == 0) {
-            strafeLeftEncoder(45, 0.5);
+            /*strafeLeftEncoder(45, 0.5);
             dArmWait(-5,0.25);
-            strafeLeftEncoder(40, 0.5);
+            strafeLeftEncoder(40, 0.5);*/
         } else if(DuckPosition == 1) {
-            strafeLeftEncoder(20, 0.5);
+            /*strafeLeftEncoder(20, 0.5);
             dArmWait(-5,0.25);
-            strafeLeftEncoder(65, 0.5);
+            strafeLeftEncoder(65, 0.5);*/
         } else if(DuckPosition == 2){
-            dArmWait(-5,0.25);
-            strafeLeftEncoder(85, 0.5);
+            /*dArmWait(-5,0.25);
+            strafeLeftEncoder(85, 0.5);*/
             //This arm is in no way affiliated with Danny McDowell.
             //Any complaints should be filed to Gustav Nelson.
         }
 
-        strafeRightEncoder(50, 0.5);
+        /*strafeRightEncoder(50, 0.5);
         pause(1);
         vuforiaTrack();
         telemetry.update();
@@ -185,7 +187,7 @@ public class BlueStorageStorage extends AutonomousPrime2021 {
         }
         else{
             strafeRightEncoder(50,0.5);
-        }
+        }*/
 
 
 

@@ -14,7 +14,9 @@ public class PositionTestBlue extends AutonomousPrime2021 {
         /*duckSpin(1,5);
         pause(2);*/
 
-        Thread t1 = new Thread(new ArmController());
+
+
+        /*Thread t1 = new Thread(new ArmController());
         t1.start();
 
         linearSlide(1750,0.15);
@@ -25,11 +27,14 @@ public class PositionTestBlue extends AutonomousPrime2021 {
 
         linearSlide(0, 0.15);
 
-        pause(7);
+        pause(7);*/
 
 
 
-        /*while(!isStopRequested()) {
+
+
+
+        while(!isStopRequested()) {
             updateAllDist();
             telemetry.addData("RightDist: ", RightDist);
             telemetry.addData("LeftDist: ", LeftDist);
@@ -47,7 +52,7 @@ public class PositionTestBlue extends AutonomousPrime2021 {
 
 
 
-        }*/
+        }
 
         /*rightEncoder(90, 0.5);
         pause(1);

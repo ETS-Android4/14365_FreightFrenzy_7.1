@@ -754,7 +754,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
      * Move arm up by pos at the speed passed
      */
     public void dArm(double pos, double MotorPower){
-        dArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //dArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         double cmOffset = pos;
 
