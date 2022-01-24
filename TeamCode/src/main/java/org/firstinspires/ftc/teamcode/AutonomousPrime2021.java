@@ -103,7 +103,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
 
 
     protected DcMotorEx intake = null;
-    protected DcMotorEx linearSlide = null; //was protected
+    public static DcMotorEx linearSlide = null; //was protected
     protected DcMotorEx dArm = null;
 
 
@@ -116,7 +116,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
      ********************
      */
 
-    protected Servo chute;
+    public static Servo chute;
     protected CRServo duckSpinny = null;
 
 
@@ -343,20 +343,13 @@ public class AutonomousPrime2021 extends LinearOpMode {
         telemetry.update();
     }
 
-    /**
-     * Return linearSlide position
-     */
-    public int linearSlidePos(){
-        return linearSlide.getCurrentPosition();
-    }
-
 
     /**
      * Move linear slide to given position
      */
 
     public void linearSlide(double pos, double MotorPower) {
-        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         double cmOffset = pos;
 

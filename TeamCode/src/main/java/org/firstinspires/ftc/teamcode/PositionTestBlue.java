@@ -19,11 +19,13 @@ public class PositionTestBlue extends AutonomousPrime2021 {
 
         linearSlide(1750,0.15);
 
-        pause(5);
+        pause(7);
 
         //t1.interrupt();
 
-        pause(2);
+        linearSlide(0, 0.15);
+
+        pause(7);
 
 
 
@@ -115,4 +117,6 @@ public class PositionTestBlue extends AutonomousPrime2021 {
         //What da dog doin? -Nate
         //Ur mom -Abraham Lincoln
     }
+
+
 }
