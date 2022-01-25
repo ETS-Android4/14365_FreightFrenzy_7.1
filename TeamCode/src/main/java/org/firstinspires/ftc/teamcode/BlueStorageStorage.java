@@ -112,11 +112,11 @@ public class BlueStorageStorage extends AutonomousPrime2021 {
         //Spin duck
 
         strafeRightEncoder(22, 0.5);
-        rightEncoder(100,0.25);
+        rightEncoder(100,0.5);
 
         dArm(6,0.4);
 
-        double idealWobblePos=3.5; //was 16.4, 12.5,
+        double idealWobblePos=12.5; //was 16.4, 12.5, 3.5, 7.5,
         updateRightDist();
         int count = 0;
         while(RightDist==0 || RightDist>800){
@@ -137,16 +137,19 @@ public class BlueStorageStorage extends AutonomousPrime2021 {
         duckSpin(1,4);
 
 
-        forwardEncoder(38,1); //Was 45
+        forwardEncoder(65,0.5); //Was 45, 35, 38, 48, 53, 58, 68, 65
 
-        strafeLeftEncoder(15,0.5);
+        //strafeLeftEncoder(15,0.5);
 
 
-        leftEncoder(180,0.5);
+        //leftEncoder(190,0.5); //was 180, 200,
+        zeroBotEncoderOffset(85, 0.5); //was 90, 120, 70, 80, 90, 95
 
         dArm(0,0.45);
 
         //spinIntake(1);
+
+        strafeRightEncoder(70,0.5);
 
 
         if(DuckPosition == 0) {
