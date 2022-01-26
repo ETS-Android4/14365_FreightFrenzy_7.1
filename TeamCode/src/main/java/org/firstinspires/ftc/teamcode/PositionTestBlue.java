@@ -29,12 +29,21 @@ public class PositionTestBlue extends AutonomousPrime2021 {
 
         pause(7);*/
 
+        Thread t1 = new Thread(new SensorThread());
+        t1.start();
+        while(!isStopRequested()){
+            telemetry.addData("Back Left Dist: ", SensorData.getBackLeftDist());
+            telemetry.addData("Right Dist: ", SensorData.getRightDist());
+            telemetry.addData("IMU Angle: ", SensorData.getIMUAngle());
+            telemetry.update();
+        }
 
 
 
 
 
-        while(!isStopRequested()) {
+
+        /*while(!isStopRequested()) {
             updateAllDist();
             telemetry.addData("RightDist: ", RightDist);
             telemetry.addData("LeftDist: ", LeftDist);
@@ -52,7 +61,7 @@ public class PositionTestBlue extends AutonomousPrime2021 {
 
 
 
-        }
+        }*/
 
         /*rightEncoder(90, 0.5);
         pause(1);
