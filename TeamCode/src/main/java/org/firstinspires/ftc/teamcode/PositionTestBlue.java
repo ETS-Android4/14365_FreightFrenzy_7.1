@@ -33,8 +33,21 @@ public class PositionTestBlue extends AutonomousPrime2021 {
         t1.start();
         while(!isStopRequested()){
             telemetry.addData("Back Left Dist: ", SensorData.getBackLeftDist());
+            telemetry.addData("Front Left Dist: ", SensorData.getFrontLeftDist());
+            telemetry.addData("Back Right Dist: ", SensorData.getBackRightDist());
+            telemetry.addData("Front Right Dist: ", SensorData.getFrontRightDist());
             telemetry.addData("Right Dist: ", SensorData.getRightDist());
+            telemetry.addData("Left Dist: ", SensorData.getLeftDist());
+            telemetry.addData("Ground Front Dist: ", SensorData.getGroundFrontDist());
+            telemetry.addData("Ground Back Dist: ", SensorData.getGroundBackDist());
+
             telemetry.addData("IMU Angle: ", SensorData.getIMUAngle());
+
+            telemetry.addData("Vuforia Target Visible: ", SensorData.isVufVisible());
+            telemetry.addData("Vuforia X Pos: ", SensorData.getVufXPos());
+            telemetry.addData("Vuforia Y Pos: ", SensorData.getVufYPos());
+            telemetry.addData("Vuforia Heading: ", SensorData.getVufHeading());
+
             telemetry.update();
         }
 
