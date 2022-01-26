@@ -86,14 +86,14 @@ public class SensorThread extends AutonomousPrime2021 implements Runnable {
             ThreadUpload.setGroundFrontDist(GroundFront.getDistance(DistanceUnit.CM));
             ThreadUpload.setGroundBackDist(GroundBack.getDistance(DistanceUnit.CM));
 
-            if(targetVisible){
+            if(targetVisible) {
                 ThreadUpload.setVufHeading(VufHeading);
                 ThreadUpload.setVufXPos(VufXPos);
                 ThreadUpload.setVufYPos(VufYPos);
                 ThreadUpload.setVufVisible(targetVisible);
                 setAngle(VufHeading);
             }
-            else{
+            else {
                 ThreadUpload.setVufVisible(targetVisible);
             }
             ThreadUpload.setIMUAngle(getAngle());
