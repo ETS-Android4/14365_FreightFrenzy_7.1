@@ -11,7 +11,7 @@ import java.util.List;
 // TODO: Get working with custom .TFLITE models (LONG TERM)
 
 @Autonomous(name="ComputerVisionTest", group="linearOpMode")
-public class ComputerVisionTest extends AutonomousPrime2021 {
+public class ComputerVisionBase extends AutonomousPrime2021 {
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
             "Ball",
@@ -22,8 +22,8 @@ public class ComputerVisionTest extends AutonomousPrime2021 {
     private static final String VUFORIA_KEY = "Aba+gBH/////AAABma/0sYDZakYVhtjb1kH5oBVmYfYsDZXTuEZL9m7EdnFKZN/0v/LvE/Yr0NsXiJo0mJmznKAA5MK6ojvgtV1e1ODodBaMYZpgE1YeoAXYpvvPGEsdGv3xbvgKhvwOvqDToPe3x5w6gsq7a4Ullp76kLxRIoZAqaRpOuf1/tiJJQ7gTBFf8MKgbCDosmMDj7FOZsclk7kos4L46bLkVBcD9E0l7tNR0H0ShiOvxBwq5eDvzvmzsjeGc1aPgx9Br5AbUwN1T+BOvqwvZH2pM2HDbybgcWQJKH1YvXH4O62ENsYhD9ubvktayK8hSuu2CpUd1FVU3YQp91UrCvaKPYMiMFu7zeQCnoc7UOpG1P/kdFKP";
     private static String labelName;
     private static int noLabel;
-    private VuforiaLocalizer vuforia;
-    private TFObjectDetector tfod;
+    public static VuforiaLocalizer vuforia;
+    public static TFObjectDetector tfod;
     @Override
     public void runOpMode(){
         initVuforia();
@@ -52,27 +52,7 @@ public class ComputerVisionTest extends AutonomousPrime2021 {
                             labelName = recognition.getLabel();
 
                         }
-                        if (noLabel == 0){
-                            //forwardEncoder(80, 0.5);
-                            //pause(100);
-                        }
-                        else if (labelName.equals("Single")){
-                            //forwardEncoder(50, 0.5);
-                        }
-                        else if (labelName.equals("Quad")){
-                            //forwardEncoder(120, 0.5);
-                        }
-                        //String label = recognition.getLabel();
                         telemetry.update();
-                        /* if(label == "single"){
-
-                        }
-                        else if (label == "quad"){
-
-                        } else{
-
-                        }*/
-
                     }
                 }
             }
@@ -106,39 +86,5 @@ public class ComputerVisionTest extends AutonomousPrime2021 {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
     }
-
-
-
-        /*
-        OPTION ONE
-        CV Scan for ring num (log in var)
-        Move to line
-        Shoot 3x at 80% power
-        Go back to wobble and grab
-        Drop off goal in correct zone based off of var
-        Park
-         */
-        /*
-        OPTION TWO
-        CV Scan for ring num (log in var)
-        Grab wobble
-        Move to line
-        Shoot 3x at 80% power
-        Drop off goal in correct zone based off of var
-        Park
-         */
-        /*
-        OPTION ONE PROS
-        -Potentially more consistent
-        -Easier points in beginning (if fails later, have more points still)
-        OPTION ONE CONS
-        -More time to go back for wobble and drop it off (TIME CONCERN)
-        OPTION TWO PROS
-        -Faster and more fluid
-        -Still gets same amount of points as option one but with chance to pick up and shoot "floor rings"
-        OPTION TWO CONS
-        -Points weighted towards end; less points if it fails at any moment
-        -Wobble may cause drag to interfere
-         */
 
 }

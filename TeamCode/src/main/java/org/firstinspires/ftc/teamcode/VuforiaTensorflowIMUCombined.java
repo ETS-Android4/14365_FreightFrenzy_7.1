@@ -58,7 +58,7 @@ public class VuforiaTensorflowIMUCombined extends AutonomousPrime2021 {
     private OpenGLMatrix lastLocation   = null;
     private VuforiaLocalizer vuforia    = null;
     private VuforiaTrackables targets   = null ;
-    private WebcamName webcamName       = null;
+    public static WebcamName webcamName       = null;
 
     private boolean targetVisible       = false;
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();

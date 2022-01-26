@@ -73,6 +73,34 @@ public class SensorData {
         this.IMUAngle = IMUAngle;
     }
 
+    public double getVufXPos() {
+        return VufXPos;
+    }
+
+    public void setVufXPos(double vufXPos) {
+        VufXPos = vufXPos;
+    }
+
+    public double getVufYPos() {
+        return VufYPos;
+    }
+
+    public void setVufYPos(double vufYPos) {
+        VufYPos = vufYPos;
+    }
+
+    public double getVufHeading() {
+        return VufHeading;
+    }
+
+    public void setVufHeading(double vufHeading) {
+        VufHeading = vufHeading;
+    }
+
+    private double VufXPos = 0;
+    private double VufYPos = 0;
+    private double VufHeading = 0;
+
     private double GroundFrontDist;
     private double GroundBackDist;
     private double LeftDist;

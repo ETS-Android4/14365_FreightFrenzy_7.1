@@ -35,6 +35,7 @@ public class PositionTestBlue extends AutonomousPrime2021 {
             telemetry.addData("Back Left Dist: ", SensorData.getBackLeftDist());
             telemetry.addData("Right Dist: ", SensorData.getRightDist());
             telemetry.addData("IMU Angle: ", SensorData.getIMUAngle());
+            telemetry.addData("VufXPos: ", SensorData.getVufXPos());
             telemetry.update();
         }
 
