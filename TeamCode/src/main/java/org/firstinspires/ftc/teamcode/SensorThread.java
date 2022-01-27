@@ -32,6 +32,11 @@ public class SensorThread extends AutonomousPrime2021 implements Runnable {
 
         SensorData ThreadUpload = new SensorData();
 
+
+
+
+
+
         while (!Thread.currentThread().isInterrupted()) {
             ThreadUpload.setBackLeftDist(BackLeft.getDistance(DistanceUnit.CM));
             ThreadUpload.setBackRightDist(BackRight.getDistance(DistanceUnit.CM));
@@ -45,11 +50,22 @@ public class SensorThread extends AutonomousPrime2021 implements Runnable {
             ThreadUpload.setGroundFrontDist(GroundFront.getDistance(DistanceUnit.CM));
             ThreadUpload.setGroundBackDist(GroundBack.getDistance(DistanceUnit.CM));
 
+            AutonomousProgramBase.vuforiaTrack();
+
+            if(AutonomousProgramBase.targetVisible){
+                ThreadUpload.setVufXPos(AutonomousProgramBase.translationG.get(0));
+                ThreadUpload.setVufYPos(AutonomousProgramBase.translationG.get(1));
+                ThreadUpload.setVufHeading(AutonomousProgramBase.rotationG.thirdAngle);
+                setAngle(ThreadUpload.getVufHeading());
+                ThreadUpload.setVufVisible(true);
+            }
+            else{
+                ThreadUpload.setVufVisible(false);
+            }
+
             ThreadUpload.setIMUAngle(getAngle());
 
             AutonomousPrime2021.SensorData=ThreadUpload;
-
-
 
         }
 

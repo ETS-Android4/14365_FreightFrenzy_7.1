@@ -82,6 +82,43 @@ public class SensorData {
     private double BackLeftDist;
     private double BackRightDist;
 
+    public double getVufXPos() {
+        return VufXPos;
+    }
+
+    public void setVufXPos(double vufXPos) {
+        VufXPos = vufXPos;
+    }
+
+    public double getVufYPos() {
+        return VufYPos;
+    }
+
+    public void setVufYPos(double vufYPos) {
+        VufYPos = vufYPos;
+    }
+
+    public double getVufHeading() {
+        return VufHeading;
+    }
+
+    public void setVufHeading(double vufHeading) {
+        VufHeading = vufHeading;
+    }
+
+    public boolean isVufVisible() {
+        return VufVisible;
+    }
+
+    public void setVufVisible(boolean vufVisible) {
+        VufVisible = vufVisible;
+    }
+
+    private double VufXPos;
+    private double VufYPos;
+    private double VufHeading;
+    private boolean VufVisible;
+
     private double IMUAngle;
 
 
