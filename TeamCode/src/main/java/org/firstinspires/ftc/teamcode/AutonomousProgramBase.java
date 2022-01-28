@@ -79,6 +79,10 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         Thread t1 = new Thread(new SensorThread());
         t1.start();
 
+        Thread t2 = new Thread(new ArmController());
+        t2.start();
+
+
         strafeRightEncoder(22, 0.5);
         rightEncoder(90,0.5);
 
