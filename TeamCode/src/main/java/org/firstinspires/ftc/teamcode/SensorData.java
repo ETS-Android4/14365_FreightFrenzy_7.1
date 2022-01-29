@@ -121,5 +121,35 @@ public class SensorData {
 
     private double IMUAngle;
 
+    public double getOdoXPos() {
+        return odoXPos;
+    }
+
+    public void setOdoXPos(double odoXPos) {
+        this.odoXPos = odoXPos;
+    }
+
+    public double getOdoYPos() {
+        return odoYPos;
+    }
+
+    public void setOdoYPos(double odoYPos) {
+        this.odoYPos = odoYPos;
+    }
+
+    public double getOdoHeading() {
+        return odoHeading;
+    }
+
+    public void setOdoHeading(double odoHeading) {
+        this.odoHeading = odoHeading;
+    }
+
+    private double odoXPos;
+    private double odoYPos;
+    private double odoHeading;
+
+
+
 
 }

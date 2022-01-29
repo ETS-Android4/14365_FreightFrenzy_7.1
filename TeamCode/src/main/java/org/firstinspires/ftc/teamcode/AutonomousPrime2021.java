@@ -58,7 +58,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
      */
     public int x = 0;
     public int y = 0;
-    public int angle = 0;
+    public static int angle = 0;
     public boolean ArmDump = false;
 
     /*
@@ -102,9 +102,10 @@ public class AutonomousPrime2021 extends LinearOpMode {
 
 
 
-    protected DcMotorEx intake = null;
+    public static DcMotorEx intake = null;
     public static DcMotorEx linearSlide = null; //was protected
-    protected DcMotorEx dArm = null;
+    public static DcMotorEx dArm = null;
+    //public static DcMotorEx rightOdo = null;
 
 
 
@@ -217,6 +218,8 @@ public class AutonomousPrime2021 extends LinearOpMode {
 
 
         dArm = hardwareMap.get(DcMotorEx.class, "dArm");
+
+        //rightOdo = hardwareMap.get(DcMotorEx.class,"rightOdo");
 
 
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -31,11 +32,11 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = 6 * mmPerInch;          // the height of the center of the target image above the floor
-    private static final float halfField        = 72 * mmPerInch;
-    private static final float halfTile         = 12 * mmPerInch;
-    private static final float oneAndHalfTile   = 36 * mmPerInch;
+    private static final float cmPerInch        = 2.54f; //Was 25.4f for mm, changing to cm now
+    private static final float mmTargetHeight   = 6 * cmPerInch;          // the height of the center of the target image above the floor
+    private static final float halfField        = 72 * cmPerInch;
+    private static final float halfTile         = 12 * cmPerInch;
+    private static final float oneAndHalfTile   = 36 * cmPerInch;
 
     // Class Members
     private static OpenGLMatrix lastLocation   = null;
@@ -66,6 +67,54 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
     private static int noLabel;
     private TFObjectDetector tfod;
 
+
+    /*
+     *********************
+     *   SETUP ODOMETRY  *
+     *********************
+     */
+    public static int left_encoder_pos = 0; //THIS NEEDS TO BE UPDATED BY SENSORS
+    public static int prev_left_encoder_pos = 20;
+
+    public static int right_encoder_pos = 20; //THIS NEEDS TO BE UPDATED BY SENSORS
+    public static int prev_right_encoder_pos = 0;
+
+    public static int center_encoder_pos = 20; //THIS NEEDS TO BE UPDATED BY SENSORS
+    public static int prev_center_encoder_pos = 0;
+
+    //Distance between right x sensor left x sensor
+    public static int trackwidth = 19; //in cm
+    public static int forward_offset = 0;
+
+    public static int delta_x = 0;
+
+
+
+    public static double heading = 0; //MIGHT NEED TO CHANGE BACK TO INT IN TESTING IDK
+
+
+
+    public static int delta_y = 0;
+
+
+
+    public static double x_pos = 0; //MIGHT NEED TO CHANGE BACK TO INT IN TESTING IDK
+    public static double y_pos = 0; //MIGHT NEED TO CHANGE BACK TO INT IN TESTING IDK
+
+
+
+    //Assume delta
+    public static int delta_left_encoder_pos = 0;
+    public static int delta_right_encoder_pos = 0;
+    public static int delta_center_encoder_pos = 0;
+    //new heading
+    public static int phi = 0;
+    public static int delta_middle_pos = 0;
+    public static int delta_perp_pos = 0;
+
+    public static double vuforia_x = 0;
+    public static double vuforia_y = 0;
+
     @Override
     public void runOpMode() {
         mapObjects();
@@ -81,6 +130,15 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         Thread t2 = new Thread(new ArmController());
         t2.start();
+
+
+
+        /*while(!isStopRequested()){
+            telemetry.addData("Odo X Pos: ", SensorData.getOdoXPos());
+            telemetry.addData("Odo Y Pos: ", SensorData.getOdoYPos());
+            telemetry.addData("Odo Heading: ", SensorData.getOdoHeading());
+
+        }*/
 
 
         strafeRightEncoder(22, 0.5);
@@ -186,9 +244,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
          *      In this example, it is centered on the robot (left-to-right and front-to-back), and 6 inches above ground level.
          */
 
-        final float CAMERA_FORWARD_DISPLACEMENT  = 0.0f * mmPerInch;   // eg: Enter the forward distance from the center of the robot to the camera lens
-        final float CAMERA_VERTICAL_DISPLACEMENT = 8.9f * mmPerInch;   // eg: Camera is 6 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT     = 0.0f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
+        final float CAMERA_FORWARD_DISPLACEMENT  = 0.0f * cmPerInch;   // eg: Enter the forward distance from the center of the robot to the camera lens
+        final float CAMERA_VERTICAL_DISPLACEMENT = 8.9f * cmPerInch;   // eg: Camera is 6 Inches above ground
+        final float CAMERA_LEFT_DISPLACEMENT     = 0.0f * cmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
 
         OpenGLMatrix cameraLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
@@ -246,7 +304,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             VectorF translation = lastLocation.getTranslation();
             translationG = translation;
             //telemetry.addData("Pos (inches)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-            System.out.println(translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch);
+            System.out.println(translation.get(0) / cmPerInch + translation.get(1) / cmPerInch + translation.get(2) / cmPerInch);
 
             // express the rotation of the robot in degrees.
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
@@ -296,6 +354,85 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
                 //telemetry.update();
             }
         }
+    }
+
+    public static void calculatePos(int leftEncoder, int rightEncoder, int centerEncoder) {
+
+        delta_left_encoder_pos=leftEncoder;
+        delta_right_encoder_pos=rightEncoder;
+        delta_center_encoder_pos=centerEncoder;
+
+        left_encoder_pos = delta_left_encoder_pos + prev_left_encoder_pos;
+        right_encoder_pos = delta_right_encoder_pos + prev_right_encoder_pos;
+        center_encoder_pos = delta_center_encoder_pos + prev_center_encoder_pos;
+        phi = (delta_left_encoder_pos - delta_right_encoder_pos) / trackwidth;
+
+        //Assuming this is right
+        delta_middle_pos = (delta_left_encoder_pos + delta_right_encoder_pos) / 2;
+        delta_perp_pos = delta_center_encoder_pos - forward_offset * phi;
+        delta_x = (int) (delta_middle_pos * Math.cos(heading) - delta_perp_pos * Math.sin(heading));
+        delta_y = (int) (delta_middle_pos * Math.sin(heading) + delta_perp_pos * Math.cos(heading));
+
+
+        //Updating robot position on the field
+        x_pos += delta_x;
+        y_pos += delta_y;
+        heading += phi;
+
+        prev_left_encoder_pos = left_encoder_pos;
+        prev_right_encoder_pos = right_encoder_pos;
+        prev_center_encoder_pos = center_encoder_pos;
+
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        dArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightOdo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        /*telemetry.addData("X Position", x_pos);
+        telemetry.addData("Y Position", y_pos);
+        telemetry.addData("Left Encoder Position", left_encoder_pos);
+        telemetry.addData("Right Encoder Position", right_encoder_pos);
+        telemetry.addData("Heading", heading);*/
+        //telemetry.update();
+    }
+
+    public static void calculatePosVuf(int leftEncoder, int rightEncoder, int centerEncoder) {
+
+        delta_left_encoder_pos=leftEncoder;
+        delta_right_encoder_pos=rightEncoder;
+        delta_center_encoder_pos=centerEncoder;
+
+        left_encoder_pos = delta_left_encoder_pos + prev_left_encoder_pos;
+        right_encoder_pos = delta_right_encoder_pos + prev_right_encoder_pos;
+        center_encoder_pos = delta_center_encoder_pos + prev_center_encoder_pos;
+
+        phi = (delta_left_encoder_pos - delta_right_encoder_pos) / trackwidth;
+
+        //Assuming this is right
+        delta_middle_pos = (delta_left_encoder_pos + delta_right_encoder_pos) / 2;
+        delta_perp_pos = delta_center_encoder_pos - forward_offset * phi;
+        delta_x = (int) (delta_middle_pos * Math.cos(heading) - delta_perp_pos * Math.sin(heading));
+        delta_y = (int) (delta_middle_pos * Math.sin(heading) + delta_perp_pos * Math.cos(heading));
+
+
+        //Updating robot position on the field
+        x_pos = vuforia_x;
+        y_pos = vuforia_y;
+        heading = angle;
+
+        prev_left_encoder_pos = left_encoder_pos;
+        prev_right_encoder_pos = right_encoder_pos;
+        prev_center_encoder_pos = center_encoder_pos;
+
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        dArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rightOdo.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        /*telemetry.addData("X Position", x_pos);
+        telemetry.addData("Y Position", y_pos);
+        telemetry.addData("Left Encoder Position", left_encoder_pos);
+        telemetry.addData("Right Encoder Position", right_encoder_pos);
+        telemetry.addData("Heading", heading);*/
+        //telemetry.update();
     }
 
 

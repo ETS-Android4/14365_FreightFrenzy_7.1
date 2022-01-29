@@ -70,18 +70,18 @@ public class LogansTeleop extends LinearOpMode {
 
         while(opModeIsActive()) {
             double coefficient = 1;
-            if(gamepad1.right_bumper){
-                coefficient=0.25;
+            if(gamepad1.left_bumper){
+                coefficient=0.5;
             }
             double y = gamepad1.left_stick_y;
             double x = -gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = ((-y - x - rx) / denominator) * coefficient;
-            double backLeftPower = ((-y + x - rx) / denominator) * coefficient;
-            double frontRightPower = ((y - x - rx) / denominator) * coefficient;
-            double backRightPower = ((y + x - rx) / denominator) * coefficient;
+            double frontLeftPower = ((y + x - rx) / denominator) * coefficient;
+            double backLeftPower = ((y - x - rx) / denominator) * coefficient;
+            double frontRightPower = ((-y + x - rx) / denominator) * coefficient;
+            double backRightPower = ((-y - x - rx) / denominator) * coefficient;
 
             frontLeft.setPower(frontLeftPower);
             frontRight.setPower(frontRightPower);

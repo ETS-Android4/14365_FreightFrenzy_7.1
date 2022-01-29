@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -32,6 +33,10 @@ public class SensorThread extends AutonomousPrime2021 implements Runnable {
 
         SensorData ThreadUpload = new SensorData();
 
+        DcMotorEx intake = AutonomousPrime2021.intake;
+        DcMotorEx dArm = AutonomousPrime2021.dArm;
+
+
 
 
 
@@ -52,14 +57,28 @@ public class SensorThread extends AutonomousPrime2021 implements Runnable {
 
             AutonomousProgramBase.vuforiaTrack();
 
-            if(AutonomousProgramBase.targetVisible){
+            //AutonomousProgramBase.calculatePos(dArm.getCurrentPosition(),rightOdo.getCurrentPosition(),intake.getCurrentPosition()); //JUST Odometry
+            //AutonomousProgramBase.calculatePosVuf(); //Odometry syncing to Vuf
+
+
+            //IIIII HAAATE THIS SOOO MUUUUUCH
+            if(AutonomousProgramBase.targetVisible){ //If vuf target visible
                 ThreadUpload.setVufXPos(AutonomousProgramBase.translationG.get(0));
                 ThreadUpload.setVufYPos(AutonomousProgramBase.translationG.get(1));
                 ThreadUpload.setVufHeading(AutonomousProgramBase.rotationG.thirdAngle);
                 setAngle(ThreadUpload.getVufHeading());
+
+                //AutonomousProgramBase.calculatePosVuf(dArm.getCurrentPosition(),rightOdo.getCurrentPosition(),intake.getCurrentPosition());
+
+                ThreadUpload.setOdoXPos(AutonomousProgramBase.x_pos);
+                ThreadUpload.setOdoYPos(AutonomousProgramBase.y_pos);
+                ThreadUpload.setOdoHeading(AutonomousProgramBase.heading);
+
                 ThreadUpload.setVufVisible(true);
             }
             else{
+                //AutonomousProgramBase.calculatePos(dArm.getCurrentPosition(),rightOdo.getCurrentPosition(),intake.getCurrentPosition());
+
                 ThreadUpload.setVufVisible(false);
             }
 

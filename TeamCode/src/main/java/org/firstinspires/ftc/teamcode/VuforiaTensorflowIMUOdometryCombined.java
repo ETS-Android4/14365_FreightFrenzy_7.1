@@ -80,7 +80,7 @@ public class VuforiaTensorflowIMUOdometryCombined extends AutonomousPrime2021 {
     int prev_center_encoder_pos = 0;
 
     //Distance between right x sensor left x sensor
-    int trackwidth = 15;
+    int trackwidth = 19; //in cm
     int forward_offset = 0;
 
     int delta_x = 0;
