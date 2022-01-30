@@ -66,15 +66,15 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
     private static int noLabel;
     private TFObjectDetector tfod;
 
+    private static double TFodRight;
+    private static double TFodLeft;
+
     @Override
     public void runOpMode() {
         mapObjects();
         vuforiaInit();
-        initTfod(0.6);
+        initTfod(0.5);
         tfod.activate();
-        telemetry.addData("Robot: ", "Ready!");
-        telemetry.update();
-        waitForStart();
 
         Thread t1 = new Thread(new SensorThread());
         t1.start();
@@ -82,29 +82,93 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         Thread t2 = new Thread(new ArmController());
         t2.start();
 
+        telemetry.addData("Robot: ", "Ready!");
+        telemetry.update();
+        waitForStart();
+
+        int startingPos = 2; //0 = left & high, 1 = mid & mid, 2 = right & low
+
+
+
+
+
+
 
         strafeRightEncoder(22, 0.5);
         rightEncoder(90,0.5);
 
-        dArm(6,0.4);
+        //dArm(6,0.4);
 
-        double idealWobblePos=10.5; //was 16.4, 12.5, 3.5, 7.5,
-        pause(1);
+        double idealWobblePos=5.5; //was 16.4, 12.5, 3.5, 7.5, was 6.5
+        pause(2);
         double rightDist = SensorData.getRightDist();
 
         strafeRightEncoder(rightDist-idealWobblePos,0.25);
 
         duckSpin(1,4);
 
-        forwardEncoder(65,0.5); //Was 45, 35, 38, 48, 53, 58, 68, 65
+        strafeLeftEncoder(140,0.5); //was 125
 
-        zeroBotEncoderOffset(80, 0.5); //was 90, 120, 70, 80, 90, 95
+        if(startingPos==0){
+            linearSlide(2471,0.4);
 
-        dArm(0,0.45);
+            forwardEncoder(25,0.25);
 
-        pause(1);
+            pause(3.5);
 
-        strafeRightEncoder(70,0.5);
+            ArmDump=true;
+
+            pause(2);
+
+            ArmDump=false;
+
+            linearSlide(0,0.4);
+
+            pause(3);
+        }
+        else if(startingPos==1){
+            linearSlide(2000,0.4);
+            forwardEncoder(18,0.25); //was 10
+            pause(3);
+            ArmDump=true;
+            pause(2);
+            ArmDump=false;
+
+            linearSlide(0,0.4);
+
+            pause(3);
+
+        }
+        else if(startingPos==2){
+            linearSlide(1700,0.4);
+            forwardEncoder(16,0.25);
+            pause(3);
+            ArmDump=true;
+            pause(2);
+            ArmDump=false;
+
+            linearSlide(0,0.4);
+
+            pause(3);
+
+        }
+
+
+        leftEncoder(95,0.25); //was 90, 100,
+
+        forwardEncoder(180,1);
+
+        rightEncoder(120,0.5);
+
+        //forwardEncoder(65,0.5); //Was 45, 35, 38, 48, 53, 58, 68, 65
+
+        //zeroBotEncoderOffset(80, 0.5); //was 90, 120, 70, 80, 90, 95
+
+        //dArm(0,0.45);
+
+        //pause(1);
+
+        //strafeRightEncoder(70,0.5);
 
 
     }
@@ -291,6 +355,13 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
                     telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                             recognition.getRight(), recognition.getBottom());
                     labelName = recognition.getLabel();
+
+                    if(recognition.getLabel()=="duck"){
+                        TFodLeft=recognition.getLeft();
+                        TFodRight=recognition.getRight();
+                    }
+
+
 
                 }
                 //telemetry.update();

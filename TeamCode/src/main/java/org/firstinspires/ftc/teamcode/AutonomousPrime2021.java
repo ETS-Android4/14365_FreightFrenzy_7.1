@@ -59,7 +59,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
     public int x = 0;
     public int y = 0;
     public int angle = 0;
-    public boolean ArmDump = false;
+    public static boolean ArmDump = false;
 
     /*
      ***************************
@@ -354,9 +354,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
     public void linearSlide(double pos, double MotorPower) {
         //linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        double cmOffset = pos;
-
-        linearSlide.setTargetPosition((int)(cmOffset* COUNT_PER_ROTATION));
+        linearSlide.setTargetPosition((int)(pos));
 
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 

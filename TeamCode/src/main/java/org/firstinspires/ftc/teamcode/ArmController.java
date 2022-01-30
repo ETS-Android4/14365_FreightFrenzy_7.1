@@ -21,6 +21,9 @@ public class ArmController extends AutonomousPrime2021 implements Runnable {
 
 
         while (!Thread.currentThread().isInterrupted()) {
+
+            ArmDump=AutonomousProgramBase.ArmDump;
+
             int CurrentSlidePos = linearSlide.getCurrentPosition();
 
             if(ArmDump){
@@ -32,6 +35,9 @@ public class ArmController extends AutonomousPrime2021 implements Runnable {
             else if((CurrentSlidePos<=400 && CurrentSlidePos>-25)){ //was 200, 300, (mech change), 400,
                 chute.setPosition(0.0);
             }
+            /*else if((CurrentSlidePos<=400 && CurrentSlidePos>-25) && gamepad2.left_stick_y>0.1){ //was 200
+                chuteEx.setPwmDisable();
+            }*/
             else if(CurrentSlidePos >= 1250){ //was 550
                 chute.setPosition(0.2);
             }
