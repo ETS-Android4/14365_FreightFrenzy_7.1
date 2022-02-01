@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -31,6 +32,11 @@ public class LogansTeleop extends LinearOpMode {
 
         DcMotor intake = hardwareMap.dcMotor.get("intake");
 
+        DcMotor arm = hardwareMap.dcMotor.get("dArm");
+
+        CRServo duckSpinny=hardwareMap.get(CRServo.class,"duckSpinny");
+
+
 //        DcMotorEx linearSlide = null;
 //
 //        linearSlide = hardwareMap.get(DcMotorEx.class, "linearSlide");
@@ -51,10 +57,14 @@ public class LogansTeleop extends LinearOpMode {
         Servo chute = hardwareMap.servo.get("chute");
         ServoImplEx chuteEx = (ServoImplEx) chute;
 
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         waitForStart();
 
         double linearSlidePosition = 0;
+
+        double armPosition = 0;
 
         if(isStopRequested()) return;
 
@@ -70,18 +80,18 @@ public class LogansTeleop extends LinearOpMode {
 
         while(opModeIsActive()) {
             double coefficient = 1;
-            if(gamepad1.right_bumper){
-                coefficient=0.25;
+            if(gamepad1.left_bumper){
+                coefficient=0.5;
             }
-            double y = gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+            double y = gamepad1.left_stick_y; // Fwd/back
+            double x = -gamepad1.left_stick_x; // Left/right (STRAFE)
+            double rx = gamepad1.right_stick_x; // Left/right (TURN)
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = ((-y - x - rx) / denominator) * coefficient;
-            double backLeftPower = ((-y + x - rx) / denominator) * coefficient;
-            double frontRightPower = ((y - x - rx) / denominator) * coefficient;
-            double backRightPower = ((y + x - rx) / denominator) * coefficient;
+            double frontLeftPower = ((y + x - rx) / denominator) * coefficient;
+            double backLeftPower = ((y - x - rx) / denominator) * coefficient;
+            double frontRightPower = ((-y + x - rx) / denominator) * coefficient;
+            double backRightPower = ((-y - x - rx) / denominator) * coefficient;
 
             frontLeft.setPower(frontLeftPower);
             frontRight.setPower(frontRightPower);
@@ -89,6 +99,27 @@ public class LogansTeleop extends LinearOpMode {
             backRight.setPower(backRightPower);
 
             linearSlide.setPower(gamepad1.right_stick_y);
+
+
+            // Dont panic, its called a ternary operator. https://www.geeksforgeeks.org/java-ternary-operator-with-examples :)
+            //arm.setPower(gamepad1.left_trigger > gamepad1.right_trigger ? -gamepad1.left_trigger / 4 : gamepad1.right_trigger / 2);
+            //I am panicking because it looks very ugly. -Logan
+
+            if(gamepad1.left_trigger>0.1){
+                armPosition+=(gamepad1.left_trigger*0.5);
+            }
+            else if(gamepad1.right_trigger>0.1){
+                armPosition-=(gamepad1.right_trigger*0.5);
+            }
+            arm.setPower(1);
+            arm.setTargetPosition((int) (armPosition));
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+
+
+
 
 
 
@@ -104,15 +135,17 @@ public class LogansTeleop extends LinearOpMode {
 
             }
 
-            if(gamepad2.a){
+            if(gamepad2.a || gamepad1.b){
                 intake.setPower(-1);
             }
-            else if(gamepad2.y){
+            else if(gamepad2.y || gamepad1.y){
                 intake.setPower(1);
             }
             else{
                 intake.setPower(0);
             }
+
+            duckSpinny.setPower(gamepad2.left_bumper ? 1 : 0);
 
 
             if(gamepad2.dpad_up || gamepad2.dpad_down){

@@ -55,12 +55,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
     public static double VufHeading;
     public static double VufVisible;
 
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String TFOD_MODEL_ASSET = "/sdcard/FIRST/tflitemodels/model_20220130_191400.tflite";
     private static final String[] LABELS = {
-            "Ball",
-            "Cube",
-            "Duck",
-            "Marker"
+            "team_element"
     };
     private static String labelName;
     private static int noLabel;
@@ -73,7 +70,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
     public void runOpMode() {
         mapObjects();
         vuforiaInit();
-        initTfod(0.5);
+        initTfod(0.3);
         tfod.activate();
 
         Thread t1 = new Thread(new SensorThread());
@@ -82,19 +79,49 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         Thread t2 = new Thread(new ArmController());
         t2.start();
 
+
+
+        int count = 0;
+        while(!isStopRequested() && count<10){
+            TfodTrack();
+            count++;
+        }
+
+
+        int startingPos; //0 = left & high, 1 = mid & mid, 2 = right & low
+
+        if(TFodRight>134 && TFodRight<334){ //Middle Pos
+            startingPos = 1;
+        }
+        else if(TFodRight>486 && TFodRight<686){ //Right Pos
+            startingPos = 2;
+        }
+        else{ //Left Pos
+            startingPos=0;
+        }
+
+        telemetry.addData("Starting Pos: ", startingPos);
         telemetry.addData("Robot: ", "Ready!");
         telemetry.update();
+
         waitForStart();
 
-        int startingPos = 2; //0 = left & high, 1 = mid & mid, 2 = right & low
+
+        TfodTrack();
+
+        if(TFodRight>134 && TFodRight<334){ //Middle Pos
+            startingPos = 1;
+        }
+        else if(TFodRight>486 && TFodRight<686){ //Right Pos
+            startingPos = 2;
+        }
+        else{ //Left Pos
+            startingPos=0;
+        }
 
 
 
-
-
-
-
-        strafeRightEncoder(22, 0.5);
+        strafeRightEncoder(19, 0.5);
         rightEncoder(90,0.5);
 
         //dArm(6,0.4);
@@ -112,7 +139,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         if(startingPos==0){
             linearSlide(2471,0.4);
 
-            forwardEncoder(25,0.25);
+            forwardEncoder(28,0.25); //was 25, 28
 
             pause(3.5);
 
@@ -128,7 +155,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
         else if(startingPos==1){
             linearSlide(2000,0.4);
-            forwardEncoder(18,0.25); //was 10
+            forwardEncoder(26,0.25); //was 10, 18, 23, 26
             pause(3);
             ArmDump=true;
             pause(2);
@@ -141,7 +168,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
         else if(startingPos==2){
             linearSlide(1700,0.4);
-            forwardEncoder(16,0.25);
+            forwardEncoder(19,0.25); //was 16, 19
             pause(3);
             ArmDump=true;
             pause(2);
@@ -159,6 +186,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         forwardEncoder(180,1);
 
         rightEncoder(120,0.5);
+
+        t1.interrupt();
+        t2.interrupt();
 
         //forwardEncoder(65,0.5); //Was 45, 35, 38, 48, 53, 58, 68, 65
 
@@ -338,7 +368,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+        tfod.loadModelFromFile(TFOD_MODEL_ASSET, LABELS);
     }
 
     private void TfodTrack(){
@@ -356,7 +386,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
                             recognition.getRight(), recognition.getBottom());
                     labelName = recognition.getLabel();
 
-                    if(recognition.getLabel()=="duck"){
+                    if(recognition.getLabel()=="team_element"){
                         TFodLeft=recognition.getLeft();
                         TFodRight=recognition.getRight();
                     }
