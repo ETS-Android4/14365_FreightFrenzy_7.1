@@ -88,7 +88,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
 
 
-        int startingPos; //0 = left & high, 1 = mid & mid, 2 = right & low
+        int startingPos = 0; //0 = left & high, 1 = mid & mid, 2 = right & low
 
         if(TFodRight>134 && TFodRight<334){ //Middle Pos
             startingPos = 1;
@@ -119,6 +119,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             startingPos=0;
         }
 
+        telemetry.addData("Starting Pos: ", startingPos);
+        telemetry.update();
+
 
 
         strafeRightEncoder(19, 0.5);
@@ -135,6 +138,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         duckSpin(1,4);
 
         strafeLeftEncoder(140,0.5); //was 125
+
+        telemetry.addData("Starting Pos: ", startingPos);
+        telemetry.update();
 
         if(startingPos==0){
             linearSlide(2471,0.4);
@@ -155,7 +161,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
         else if(startingPos==1){
             linearSlide(2000,0.4);
-            forwardEncoder(26,0.25); //was 10, 18, 23, 26
+            forwardEncoder(39,0.25); //was 10, 18, 23, 26, 36, 39
             pause(3);
             ArmDump=true;
             pause(2);
@@ -168,7 +174,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
         else if(startingPos==2){
             linearSlide(1700,0.4);
-            forwardEncoder(19,0.25); //was 16, 19
+            forwardEncoder(37,0.25); //was 16, 19, 25, 30, 37
             pause(3);
             ArmDump=true;
             pause(2);
@@ -177,13 +183,12 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             linearSlide(0,0.4);
 
             pause(3);
-
         }
 
 
         leftEncoder(95,0.25); //was 90, 100,
 
-        forwardEncoder(180,1);
+        forwardEncoder(200,1); //was 180, 200
 
         rightEncoder(120,0.5);
 

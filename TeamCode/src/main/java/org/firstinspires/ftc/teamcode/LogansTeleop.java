@@ -57,8 +57,6 @@ public class LogansTeleop extends LinearOpMode {
         Servo chute = hardwareMap.servo.get("chute");
         ServoImplEx chuteEx = (ServoImplEx) chute;
 
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
 
         waitForStart();
 
@@ -78,7 +76,10 @@ public class LogansTeleop extends LinearOpMode {
 
         double chutePos=0;
 
+        double alternator = 0;
+
         while(opModeIsActive()) {
+
             double coefficient = 1;
             if(gamepad1.left_bumper){
                 coefficient=0.5;
@@ -86,6 +87,25 @@ public class LogansTeleop extends LinearOpMode {
             double y = gamepad1.left_stick_y; // Fwd/back
             double x = -gamepad1.left_stick_x; // Left/right (STRAFE)
             double rx = gamepad1.right_stick_x; // Left/right (TURN)
+            /*
+            if(gamepad2.right_stick_y>0.1){
+                alternator+=(gamepad2.right_stick_y*0.5);
+            }
+            else if(gamepad2.right_stick_y<-0.1){
+                alternator-=(gamepad2.right_stick_y*0.5);
+            }
+            else{
+                alternator=alternator;
+            }
+
+            */
+
+            if(gamepad2.right_stick_button){
+                alternator += gamepad2.right_stick_y*.15;
+                ArmMinLimit=ArmMinLimit- (int) alternator;
+                ArmMaxLimit=ArmMaxLimit- (int) alternator;
+            }
+
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = ((y + x - rx) / denominator) * coefficient;
@@ -98,25 +118,14 @@ public class LogansTeleop extends LinearOpMode {
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
 
-            linearSlide.setPower(gamepad1.right_stick_y);
+            //linearSlide.setPower(gamepad1.right_stick_y); //was
 
 
             // Dont panic, its called a ternary operator. https://www.geeksforgeeks.org/java-ternary-operator-with-examples :)
             //arm.setPower(gamepad1.left_trigger > gamepad1.right_trigger ? -gamepad1.left_trigger / 4 : gamepad1.right_trigger / 2);
             //I am panicking because it looks very ugly. -Logan
 
-            if(gamepad1.left_trigger>0.1){
-                armPosition+=(gamepad1.left_trigger*0.5);
-            }
-            else if(gamepad1.right_trigger>0.1){
-                armPosition-=(gamepad1.right_trigger*0.5);
-            }
-            arm.setPower(1);
-            arm.setTargetPosition((int) (armPosition));
-            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-
+//            if(gamepad1.left_trigger)
 
 
 
@@ -155,15 +164,15 @@ public class LogansTeleop extends LinearOpMode {
                 }
                 else if (ArmPosDPad==1){
                     //1st Wobble Level
-                    linearSlidePosition=202; //was 740
+                    linearSlidePosition=202-alternator; //was 740
                 }
                 else if(ArmPosDPad==2){
                     //2nd Wobble Level
-                    linearSlidePosition=251; //was 1140
+                    linearSlidePosition=251-alternator; //was 1140
                 }
                 else if (ArmPosDPad==3){
                     //3rd Wobble Level
-                    linearSlidePosition=325; //was 1640
+                    linearSlidePosition=325-alternator; //was 1640
                 }
                 else if(ArmPosDPad<0){
                     //D-Pad accidentally went too far down; reset to 0
@@ -213,7 +222,7 @@ public class LogansTeleop extends LinearOpMode {
 
 
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
-                linearSlidePosition-=gamepad2.left_stick_y; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed)
+                linearSlidePosition-=gamepad2.left_stick_y*1.5; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
 
 
                 //"If gone above limit, don't" -Jacob
@@ -235,6 +244,7 @@ public class LogansTeleop extends LinearOpMode {
             telemetry.addData("Linear Slide Raw Ideal Pos:", linearSlidePosition);
             telemetry.addData("Linear Slide True Pos:", linearSlide.getTargetPosition());
             telemetry.addData("DPad Level:", ArmPosDPad);
+            telemetry.addData("Arm Minimum Position: ", ArmMinLimit);
             telemetry.update();
 
 
