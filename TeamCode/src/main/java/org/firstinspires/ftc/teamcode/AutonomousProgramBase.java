@@ -161,7 +161,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
         else if(startingPos==1){
             linearSlide(2000,0.4);
-            forwardEncoder(39,0.25); //was 10, 18, 23, 26, 36, 39
+            forwardEncoder(36,0.25); //was 10, 18, 23, 26, 36, 39, 34, 36
             pause(3);
             ArmDump=true;
             pause(2);
@@ -174,7 +174,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }
         else if(startingPos==2){
             linearSlide(1700,0.4);
-            forwardEncoder(37,0.25); //was 16, 19, 25, 30, 37
+            forwardEncoder(30,0.25); //was 16, 19, 25, 30, 37, 27, 30
             pause(3);
             ArmDump=true;
             pause(2);
@@ -191,6 +191,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         forwardEncoder(200,1); //was 180, 200
 
         rightEncoder(120,0.5);
+
+
+        reverseEncoder(10,1);
 
         t1.interrupt();
         t2.interrupt();
