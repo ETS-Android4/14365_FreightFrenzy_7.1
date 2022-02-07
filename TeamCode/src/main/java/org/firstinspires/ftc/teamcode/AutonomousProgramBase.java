@@ -142,6 +142,27 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         telemetry.addData("Starting Pos: ", startingPos);
         telemetry.update();
 
+
+        //Update with BackLeft and BackRight values being read
+
+        double currBackLeftDist = SensorData.getBackLeftDist();
+        double currBackRightDist = SensorData.getBackRightDist();
+
+        //pause(0.5); //May need to pause here; if so, will need to speed up some other elements of the program
+
+
+        double AngleToTurn = Math.asin(Math.abs(currBackLeftDist-currBackRightDist)/24);
+
+        /* THIS WILL GO INTO THE LOGIC BELOW AFTER THE MOVE FORWARD
+
+        if(currBackLeftDist>currBackRightDist){
+            rightEncoder(AngleToTurn,0.25);
+        }
+        else{
+            leftEncoder(AngleToTurn,0.25);
+        }*/
+
+
         if(startingPos==0){
             linearSlide(2471,0.4);
 
