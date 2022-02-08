@@ -145,8 +145,11 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         //Update with BackLeft and BackRight values being read
 
+
+        pause(1);
+
         double currBackLeftDist = SensorData.getBackLeftDist();
-        double currBackRightDist = SensorData.getBackRightDist();
+        double currBackRightDist = SensorData.getBackRightDist()-4;
 
         //pause(0.5); //May need to pause here; if so, will need to speed up some other elements of the program
 
@@ -164,15 +167,26 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
 
         if(startingPos==0){
-            linearSlide(2471,0.4);
+            linearSlide(2197,0.4);
 
-            forwardEncoder(28,0.25); //was 25, 28
+            //forwardEncoder(28,0.25); //was 25, 28
 
-            pause(3.5);
+            if(currBackLeftDist>currBackRightDist){
+                rightEncoder(AngleToTurn,0.25);
+            }
+            else{
+                leftEncoder(AngleToTurn,0.25);
+            }
+
+            pause(1);
+
+            forwardEncoder(55-SensorData.getBackLeftDist(),0.25);
+
+            pause(1);
 
             ArmDump=true;
 
-            pause(2);
+            pause(1.5);
 
             ArmDump=false;
 
@@ -181,11 +195,24 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             pause(3);
         }
         else if(startingPos==1){
-            linearSlide(2000,0.4);
-            forwardEncoder(36,0.25); //was 10, 18, 23, 26, 36, 39, 34, 36
-            pause(3);
+            linearSlide(1687,0.4);
+            //forwardEncoder(36,0.25); //was 10, 18, 23, 26, 36, 39, 34, 36
+
+            if(currBackLeftDist>currBackRightDist){
+                rightEncoder(AngleToTurn,0.25);
+            }
+            else{
+                leftEncoder(AngleToTurn,0.25);
+            }
+
+            pause(1);
+
+            forwardEncoder(55-SensorData.getBackLeftDist(),0.25);
+
+
+            pause(1);
             ArmDump=true;
-            pause(2);
+            pause(1.5);
             ArmDump=false;
 
             linearSlide(0,0.4);
@@ -194,11 +221,24 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         }
         else if(startingPos==2){
-            linearSlide(1700,0.4);
-            forwardEncoder(30,0.25); //was 16, 19, 25, 30, 37, 27, 30
-            pause(3);
+            linearSlide(1232,0.4);
+            //forwardEncoder(30,0.25); //was 16, 19, 25, 30, 37, 27, 30
+
+            if(currBackLeftDist>currBackRightDist){
+                rightEncoder(AngleToTurn,0.25);
+            }
+            else{
+                leftEncoder(AngleToTurn,0.25);
+            }
+
+            pause(1);
+
+            forwardEncoder(55-SensorData.getBackLeftDist(),0.25);
+
+
+            pause(1);
             ArmDump=true;
-            pause(2);
+            pause(1.5);
             ArmDump=false;
 
             linearSlide(0,0.4);
