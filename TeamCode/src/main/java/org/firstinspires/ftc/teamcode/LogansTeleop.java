@@ -103,9 +103,11 @@ public class LogansTeleop extends LinearOpMode {
             */
 
             if(gamepad2.right_stick_y > 0.25 || gamepad2.right_stick_y < -0.25){
-                alternator += gamepad2.right_stick_y*.15;
-                ArmMinLimit=ArmMinLimit- (int) alternator;
-                ArmMaxLimit=ArmMaxLimit- (int) alternator;
+                alternator += gamepad2.right_stick_y*4; //was .15, then 2
+            }
+
+            if(gamepad2.start){
+                alternator=0;
             }
 
 
@@ -223,11 +225,20 @@ public class LogansTeleop extends LinearOpMode {
 
             if(gamepad2.left_stick_y>0.1 || gamepad2.left_stick_y<-0.1){
 
+                if(gamepad2.left_stick_y>0.1){
+                    intake.setPower(0.5);
+                }
+                if(gamepad2.left_stick_y<-0.1){
+                    intake.setPower(-0.25);
+                }
+
+
+
                 if(gamepad2.left_stick_button){
                     linearSlidePosition-=gamepad2.left_stick_y*0.3; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
                 }
                 else{
-                    linearSlidePosition-=gamepad2.left_stick_y*1.5; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
+                    linearSlidePosition-=gamepad2.left_stick_y*2.5; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
                 }
 
                 if(gamepad2.left_stick_y<-0.1){
@@ -239,7 +250,7 @@ public class LogansTeleop extends LinearOpMode {
 
 
                 //"If gone above limit, don't" -Jacob
-                if((linearSlidePosition*linearSlideCoefficient)>ArmMaxLimit && gamepad2.left_stick_y<-0.1){  //IF (linear slide position > arm max) AND (gamepad is going UP)
+                if((linearSlidePosition*linearSlideCoefficient)>ArmMaxLimit-alternator && gamepad2.left_stick_y<-0.1){  //IF (linear slide position > arm max) AND (gamepad is going UP)
 
 
                     //"Add" gamepad value from linear slide position (negating what it does above ^)
@@ -247,13 +258,13 @@ public class LogansTeleop extends LinearOpMode {
                         linearSlidePosition+=gamepad2.left_stick_y*0.3;
                     }
                     else{
-                        linearSlidePosition+=gamepad2.left_stick_y*1.5;
+                        linearSlidePosition+=gamepad2.left_stick_y*2.5; //was 1.5
                     }
 
 
                     telemetry.addData("Past Position And Moving Wrong: ", true); //Telemetry read out
                 }
-                else if((linearSlidePosition*linearSlideCoefficient)<ArmMinLimit && gamepad2.left_stick_y>0.1) { //IF (linear slide position < arm max) AND (gamepad is going DOWN)
+                else if((linearSlidePosition*linearSlideCoefficient)<ArmMinLimit-alternator && gamepad2.left_stick_y>0.1) { //IF (linear slide position < arm max) AND (gamepad is going DOWN)
 
 
                     //"Add" gamepad value from linear slide position (negating what it does above ^)
@@ -261,7 +272,7 @@ public class LogansTeleop extends LinearOpMode {
                         linearSlidePosition+=gamepad2.left_stick_y*0.3;
                     }
                     else{
-                        linearSlidePosition+=gamepad2.left_stick_y*1.5;
+                        linearSlidePosition+=gamepad2.left_stick_y*2.5;
                     }
 
 
