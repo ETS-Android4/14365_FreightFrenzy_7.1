@@ -233,7 +233,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
             pause(1);
 
-            forwardEncoder(55-SensorData.getBackLeftDist(),0.25);
+            forwardEncoder(52-SensorData.getBackLeftDist(),0.25); //was 55
 
 
             pause(1);
