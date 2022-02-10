@@ -12,6 +12,8 @@ public class ArmController extends AutonomousPrime2021 implements Runnable {
     public void run() {
         linearSlide = AutonomousPrime2021.linearSlide;
 
+        intake = AutonomousPrime2021.intake;
+
         /*linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlide.setDirection(DcMotorSimple.Direction.FORWARD);
         linearSlide.setTargetPositionTolerance(10);
@@ -24,7 +26,16 @@ public class ArmController extends AutonomousPrime2021 implements Runnable {
 
             ArmDump=AutonomousProgramBase.ArmDump;
 
+            GoingUp=AutonomousProgramBase.GoingUp;
+
             int CurrentSlidePos = linearSlide.getCurrentPosition();
+
+            if(GoingUp){
+                intake.setPower(-0.25);
+            }
+            else{
+                intake.setPower(0.5);
+            }
 
             if(ArmDump){
                 chute.setPosition(0.5); //Dump Pos

@@ -60,6 +60,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
     public int y = 0;
     public int angle = 0;
     public static boolean ArmDump = false;
+    public static boolean GoingUp = true;
 
     /*
      ***************************
@@ -102,7 +103,7 @@ public class AutonomousPrime2021 extends LinearOpMode {
 
 
 
-    protected DcMotorEx intake = null;
+    public static DcMotorEx intake = null;
     public static DcMotorEx linearSlide = null; //was protected
     protected DcMotorEx dArm = null;
 

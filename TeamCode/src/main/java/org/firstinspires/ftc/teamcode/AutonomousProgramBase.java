@@ -191,6 +191,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             ArmDump=false;
 
             linearSlide(0,0.4);
+            GoingUp=false;
 
             pause(3);
         }
@@ -216,6 +217,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             ArmDump=false;
 
             linearSlide(0,0.4);
+            GoingUp=false;
 
             pause(3);
 
@@ -242,6 +244,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
             ArmDump=false;
 
             linearSlide(0,0.4);
+            GoingUp=false;
 
             pause(3);
         }
