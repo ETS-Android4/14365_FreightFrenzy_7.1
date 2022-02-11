@@ -76,8 +76,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         Thread t1 = new Thread(new SensorThread());
         t1.start();
 
-        Thread t2 = new Thread(new ArmController());
-        t2.start();
+
 
 
 
@@ -106,6 +105,9 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         waitForStart();
 
+        Thread t2 = new Thread(new ArmController());
+        t2.start();
+
 
         TfodTrack();
 
@@ -124,12 +126,12 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
 
 
-        strafeRightEncoder(19, 0.5);
+        strafeRightEncoder(19, 0.5); //WAS NINETEEN
         rightEncoder(90,0.5);
 
         //dArm(6,0.4);
 
-        double idealWobblePos=5.5; //was 16.4, 12.5, 3.5, 7.5, was 6.5
+        double idealWobblePos=3.5; //was 16.4, 12.5, 3.5, 7.5, was 6.5, was 5.5
         pause(2);
         double rightDist = SensorData.getRightDist();
 
@@ -137,7 +139,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         duckSpin(1,4);
 
-        strafeLeftEncoder(140,0.5); //was 125
+        strafeLeftEncoder(142,0.5); //was 125
 
         telemetry.addData("Starting Pos: ", startingPos);
         telemetry.update();

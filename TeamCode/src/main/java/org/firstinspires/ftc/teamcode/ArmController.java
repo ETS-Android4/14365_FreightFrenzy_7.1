@@ -31,10 +31,10 @@ public class ArmController extends AutonomousPrime2021 implements Runnable {
             int CurrentSlidePos = linearSlide.getCurrentPosition();
 
             if(GoingUp){
-                intake.setPower(-0.25);
+                intake.setPower(0.25);
             }
             else{
-                intake.setPower(0.5);
+                intake.setPower(-0.5);
             }
 
             if(ArmDump){
