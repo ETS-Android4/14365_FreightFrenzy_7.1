@@ -235,7 +235,7 @@ public class LogansTeleop extends LinearOpMode {
 
 
                 if(gamepad2.left_stick_button){
-                    linearSlidePosition-=gamepad2.left_stick_y*0.3; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
+                    linearSlidePosition-=gamepad2.left_stick_y*0.5; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
                 }
                 else{
                     linearSlidePosition-=gamepad2.left_stick_y*2.5; //"Subtract" gamepad value from linear slide position (needed due to arm motor being reversed); other value is for modifying how fast (NEEDS TESTING)
@@ -255,7 +255,7 @@ public class LogansTeleop extends LinearOpMode {
 
                     //"Add" gamepad value from linear slide position (negating what it does above ^)
                     if(gamepad2.left_stick_button){
-                        linearSlidePosition+=gamepad2.left_stick_y*0.3;
+                        linearSlidePosition+=gamepad2.left_stick_y*0.5;
                     }
                     else{
                         linearSlidePosition+=gamepad2.left_stick_y*2.5; //was 1.5
@@ -269,7 +269,7 @@ public class LogansTeleop extends LinearOpMode {
 
                     //"Add" gamepad value from linear slide position (negating what it does above ^)
                     if(gamepad2.left_stick_button){
-                        linearSlidePosition+=gamepad2.left_stick_y*0.3;
+                        linearSlidePosition+=gamepad2.left_stick_y*0.5;
                     }
                     else{
                         linearSlidePosition+=gamepad2.left_stick_y*2.5;

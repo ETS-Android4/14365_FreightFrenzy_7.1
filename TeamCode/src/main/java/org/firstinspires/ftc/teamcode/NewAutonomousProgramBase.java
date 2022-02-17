@@ -13,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.external.tfod.Tfod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XZY;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 
-@Autonomous(name="AutonomousProgramBase", group="linearOpMode")
-public class AutonomousProgramBase extends AutonomousPrime2021 {
+@Autonomous(name="--NewAutonomousProgramBase--", group="linearOpMode")
+public class NewAutonomousProgramBase extends AutonomousPrime2021 {
 
     private static final String VUFORIA_KEY =
             "Aba+gBH/////AAABma/0sYDZakYVhtjb1kH5oBVmYfYsDZXTuEZL9m7EdnFKZN/0v/LvE/Yr0NsXiJo0mJmznKAA5MK6ojvgtV1e1ODodBaMYZpgE1YeoAXYpvvPGEsdGv3xbvgKhvwOvqDToPe3x5w6gsq7a4Ullp76kLxRIoZAqaRpOuf1/tiJJQ7gTBFf8MKgbCDosmMDj7FOZsclk7kos4L46bLkVBcD9E0l7tNR0H0ShiOvxBwq5eDvzvmzsjeGc1aPgx9Br5AbUwN1T+BOvqwvZH2pM2HDbybgcWQJKH1YvXH4O62ENsYhD9ubvktayK8hSuu2CpUd1FVU3YQp91UrCvaKPYMiMFu7zeQCnoc7UOpG1P/kdFKP";
@@ -79,8 +78,11 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         //GoingUp=true;
 
-        Thread t1 = new Thread(new SensorThread());
+        Thread t1 = new Thread(new NewSensorThread());
         t1.start();
+
+        Thread t2 = new Thread(new NewArmController());
+        t2.start();
 
 
 
@@ -111,8 +113,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         waitForStart();
 
-        Thread t2 = new Thread(new ArmController());
-        t2.start();
+
 
 
         TfodTrack();
@@ -131,9 +132,38 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         telemetry.addData("Going Up Variable", GoingUp);
         telemetry.update();
 
+        /*while(!isStopRequested()){
+            telemetry.addData("Back Left Dist: ", SensorData.getBackLeftDist());
+            telemetry.addData("Back Right Dist: ", SensorData.getBackRightDist());
+
+            telemetry.addData("Front Left Dist: ", SensorData.getFrontLeftDist());
+            telemetry.addData("Front Right Dist: ", SensorData.getFrontRightDist());
+
+            telemetry.addData("Left Dist: ", SensorData.getLeftDist());
+            telemetry.addData("Right Dist: ", SensorData.getRightDist());
+
+            telemetry.addData("Ground Front Dist: ", SensorData.getGroundFrontDist());
+            telemetry.addData("Ground Back Dist: ", SensorData.getGroundBackDist());
+
+            telemetry.update();
+        }*/
 
 
-        strafeRightEncoder(16, 0.5); //WAS NINETEEN
+
+
+        wavyDriving(10,0.75);
+        pause(10);
+
+        t1.interrupt();
+        t2.interrupt();
+
+
+
+
+
+
+
+        /*strafeRightEncoder(16, 0.5); //WAS NINETEEN
         rightEncoder(90,0.5);
 
         //dArm(6,0.4);
@@ -163,7 +193,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         //pause(0.5); //May need to pause here; if so, will need to speed up some other elements of the program
 
 
-        double AngleToTurn = Math.asin(Math.abs(currBackLeftDist-currBackRightDist)/24);
+        double AngleToTurn = Math.asin(Math.abs(currBackLeftDist-currBackRightDist)/24);*/
 
         /* THIS WILL GO INTO THE LOGIC BELOW AFTER THE MOVE FORWARD
 
@@ -175,7 +205,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
         }*/
 
 
-        if(startingPos==0){
+        /*if(startingPos==0){
             linearSlide(2197,0.4);
             intakeSpin=true;
 
@@ -284,7 +314,7 @@ public class AutonomousProgramBase extends AutonomousPrime2021 {
 
         //pause(1);
 
-        //strafeRightEncoder(70,0.5);
+        //strafeRightEncoder(70,0.5);*/
 
 
     }

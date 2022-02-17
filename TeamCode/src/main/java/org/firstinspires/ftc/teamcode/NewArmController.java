@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-public class ArmController extends AutonomousPrime2021 implements Runnable {
+public class NewArmController extends AutonomousPrime2021 implements Runnable {
 
 
 
@@ -26,14 +22,14 @@ public class ArmController extends AutonomousPrime2021 implements Runnable {
 
         while (!Thread.currentThread().isInterrupted()) {
 
-            ArmDump=AutonomousProgramBase.ArmDump;
+            ArmDump=NewAutonomousProgramBase.ArmDump;
 
             //GoingUp=AutonomousProgramBase.GoingUp;
 
             int CurrentSlidePos = linearSlide.getCurrentPosition();
 
-            if(AutonomousProgramBase.intakeSpin){
-                if(AutonomousProgramBase.GoingUp){
+            if(NewAutonomousProgramBase.intakeSpin){
+                if(NewAutonomousProgramBase.GoingUp){
                     intake.setPower(0.25);
                 }
                 else{

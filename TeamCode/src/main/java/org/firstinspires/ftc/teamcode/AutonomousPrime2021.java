@@ -60,7 +60,6 @@ public class AutonomousPrime2021 extends LinearOpMode {
     public int y = 0;
     public int angle = 0;
     public static boolean ArmDump = false;
-    public static boolean GoingUp = true;
 
     /*
      ***************************
@@ -91,6 +90,8 @@ public class AutonomousPrime2021 extends LinearOpMode {
     protected final double  COUNT_PER_ROTATION = 15.641025641;
     protected final double  COUNT_PER_DEGREE = 0.16;
 
+
+    boolean waveDir = true;
 
 
     /*
@@ -716,6 +717,50 @@ public class AutonomousPrime2021 extends LinearOpMode {
             telemetry.update();
         }
 
+    }
+
+    public void wavyDriving(double secs, double MotorPower){
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        ElapsedTime waveTime = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+        ElapsedTime totalTime = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
+
+        frontLeft.setPower(-MotorPower);
+        frontRight.setPower(-MotorPower*0.5);
+        backLeft.setPower(-MotorPower*0.5);
+        backRight.setPower(-MotorPower);
+        waveDir=true;
+
+        while(!isStopRequested()){
+            if(totalTime.time()>secs){
+                waveDir=true;
+                frontLeft.setPower(0);
+                frontRight.setPower(0);
+                backLeft.setPower(0);
+                backRight.setPower(0);
+                return;
+            }
+            else if(waveTime.time()>0.25){
+                if(waveDir){
+                    frontLeft.setPower(-MotorPower*0.5);
+                    frontRight.setPower(-MotorPower);
+                    backLeft.setPower(-MotorPower);
+                    backRight.setPower(-MotorPower*0.5);
+                    waveDir=false;
+                }
+                else{
+                    frontLeft.setPower(-MotorPower);
+                    frontRight.setPower(-MotorPower*0.5);
+                    backLeft.setPower(-MotorPower*0.5);
+                    backRight.setPower(-MotorPower);
+                    waveDir=true;
+                }
+                waveTime.reset();
+            }
+        }
     }
 
     /**
