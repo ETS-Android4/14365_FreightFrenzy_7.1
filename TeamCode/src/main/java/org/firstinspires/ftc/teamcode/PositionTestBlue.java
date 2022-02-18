@@ -77,22 +77,11 @@ public class PositionTestBlue extends AutonomousPrime2021 {
         linearSlide(0, 0.15);
 
         pause(7);*/
-
-        vuforiaInit();
-
-        Thread t1 = new Thread(new SensorThread());
-        t1.start();
         while(!isStopRequested()){
-            telemetry.addData("Back Left Dist: ", SensorData.getBackLeftDist());
-            telemetry.addData("Right Dist: ", SensorData.getRightDist());
-            telemetry.addData("IMU Angle: ", SensorData.getIMUAngle());
-
-            telemetry.addData("Vuf Visible: ", SensorData.isVufVisible());
-            telemetry.addData("Vuf X Pos: ", SensorData.getVufXPos());
-            telemetry.addData("Vuf Y Pos: ", SensorData.getVufYPos());
-            telemetry.addData("Vuf Heading: ", SensorData.getVufHeading());
-
-
+            updateBackLeftDist();
+            updateBackRightDist();
+            telemetry.addData("Back Left Dist: ", BackLeftDist);
+            telemetry.addData("Back Right Dist: ", BackRightDist);
             telemetry.update();
         }
 

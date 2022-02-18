@@ -71,6 +71,9 @@ public class NewAutonomousProgramBase extends AutonomousPrime2021 {
 
     @Override
     public void runOpMode() {
+
+        OverrideSpin=false;
+
         mapObjects();
         vuforiaInit();
         initTfod(0.3);
@@ -129,7 +132,7 @@ public class NewAutonomousProgramBase extends AutonomousPrime2021 {
         }
 
         telemetry.addData("Starting Pos: ", startingPos);
-        telemetry.addData("Going Up Variable", GoingUp);
+        //telemetry.addData("Going Up Variable", GoingUp);
         telemetry.update();
 
         /*while(!isStopRequested()){
@@ -149,10 +152,51 @@ public class NewAutonomousProgramBase extends AutonomousPrime2021 {
         }*/
 
 
+        forwardEncoder(35,1); //was 30, 40, 45, 38
+        pause(0.1);
+        strafeLeftEncoder(67,1); //was 70, 65
+        intakeSpin=true;
+        linearSlide(1400,1); //was 1200
+        leftEncoder(110,1); //was 65. 95, 120
+        pause(1.5);
+        ArmDump=true;
+        pause(0.75);
+        ArmDump=false;
+        linearSlide(0,0.35);
+        pause(1.5);
+        intakeSpin=false;
 
 
-        wavyDriving(10,0.75);
-        pause(10);
+        zeroBotEncoder(0.5);
+
+        pause(0.3); //was 0.2
+
+        if(SensorData.getRightDist()<300){
+            strafeRightEncoder(SensorData.getRightDist()+10,1);
+            //strafeRightEncoder(10,0.2);
+        }
+
+        reverseEncoder(120,1);
+
+        OverrideSpin=true;
+        intake.setPower(1);
+        wavyDriving(0.75,0.4);
+        OverrideSpin=false;
+        strafeRightEncoder(15,1);
+
+        pause(0.15);
+
+        forwardEncoder(103-SensorData.getBackRightDist(),1);
+
+        zeroBotEncoder(0.5);
+
+
+
+
+        //BACKLEFT: 103
+
+
+        //wavyDriving(10,0.5);
 
         t1.interrupt();
         t2.interrupt();

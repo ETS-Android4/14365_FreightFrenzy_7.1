@@ -28,7 +28,10 @@ public class NewArmController extends AutonomousPrime2021 implements Runnable {
 
             int CurrentSlidePos = linearSlide.getCurrentPosition();
 
-            if(NewAutonomousProgramBase.intakeSpin){
+            if (NewAutonomousProgramBase.OverrideSpin) {
+
+            }
+            else if(NewAutonomousProgramBase.intakeSpin){
                 if(NewAutonomousProgramBase.GoingUp){
                     intake.setPower(0.25);
                 }

@@ -59,8 +59,8 @@ public class NewSensorThread extends AutonomousPrime2021 implements Runnable {
             FrontLeftDistThread = FrontLeft.getDistance(DistanceUnit.CM);
             FrontRightDistThread = FrontRight.getDistance(DistanceUnit.CM);
 
-            LeftDistThread = BackLeft.getDistance(DistanceUnit.CM);
-            RightDistThread = BackRight.getDistance(DistanceUnit.CM);
+            LeftDistThread = Left.getDistance(DistanceUnit.CM);
+            RightDistThread = Right.getDistance(DistanceUnit.CM);
 
             GroundFrontDistThread = GroundFront.getDistance(DistanceUnit.CM);
             GroundBackDistThread = GroundBack.getDistance(DistanceUnit.CM);

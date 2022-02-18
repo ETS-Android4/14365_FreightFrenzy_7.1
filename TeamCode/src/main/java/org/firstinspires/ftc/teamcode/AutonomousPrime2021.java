@@ -169,6 +169,9 @@ public class AutonomousPrime2021 extends LinearOpMode {
     //Setup Sensor Data Object
     public static SensorData SensorData = new SensorData();
 
+
+    public static boolean OverrideSpin=false;
+
     /**
      * Mapping all empty objects to control hub objects
      */
@@ -729,8 +732,8 @@ public class AutonomousPrime2021 extends LinearOpMode {
         ElapsedTime totalTime = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
 
         frontLeft.setPower(-MotorPower);
-        frontRight.setPower(-MotorPower*0.5);
-        backLeft.setPower(-MotorPower*0.5);
+        frontRight.setPower(-MotorPower*0.15);
+        backLeft.setPower(-MotorPower*0.15);
         backRight.setPower(-MotorPower);
         waveDir=true;
 
@@ -745,16 +748,16 @@ public class AutonomousPrime2021 extends LinearOpMode {
             }
             else if(waveTime.time()>0.25){
                 if(waveDir){
-                    frontLeft.setPower(-MotorPower*0.5);
+                    frontLeft.setPower(-MotorPower*0.15);
                     frontRight.setPower(-MotorPower);
                     backLeft.setPower(-MotorPower);
-                    backRight.setPower(-MotorPower*0.5);
+                    backRight.setPower(-MotorPower*0.15);
                     waveDir=false;
                 }
                 else{
                     frontLeft.setPower(-MotorPower);
-                    frontRight.setPower(-MotorPower*0.5);
-                    backLeft.setPower(-MotorPower*0.5);
+                    frontRight.setPower(-MotorPower*0.15);
+                    backLeft.setPower(-MotorPower*0.15);
                     backRight.setPower(-MotorPower);
                     waveDir=true;
                 }
